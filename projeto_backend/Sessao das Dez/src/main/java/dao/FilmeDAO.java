@@ -47,7 +47,7 @@ public class FilmeDAO {
 
     public void alterar(MFilme filme) throws ExceptionDAO {
         // usar o update (DML) para alterar o cadastro
-        String sql = "update filme set titulo = ?, genero = ?, sinopse = ?, duracao = ? where cod_filme = ?";
+        String sql = "update filme set titulo = ?, genero = ?, sinopse = ?, duracao = ? where id_filme = ?";
         Connection conexao = null;
         PreparedStatement pStatement = null;
         try {
@@ -127,7 +127,7 @@ public class FilmeDAO {
     }
 
     public void apagar(MFilme filme) throws ExceptionDAO {
-        String sql = "delete from filme where cod_filme = ?";
+        String sql = "delete from filme where id_filme = ?";
         Connection conexao = null;
         PreparedStatement pStatement = null;
         try{

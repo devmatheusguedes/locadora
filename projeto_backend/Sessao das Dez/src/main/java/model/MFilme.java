@@ -11,9 +11,7 @@ public class MFilme {
     private String genero;
     private String sinopse;
     private Integer duracao;
-    private ArrayList<MItem> itens = new ArrayList<MItem>();
-    private ArrayList<MAtor> atores = new ArrayList<MAtor>();
-
+   private ArrayList<MItem> itens = new ArrayList<MItem>();
     public MFilme(){
 
     }
@@ -87,15 +85,5 @@ public class MFilme {
     public void setItens(ArrayList<MItem> itens) {
         this.itens = itens;
     }
-
-    public ArrayList<MAtor> getAtores() {
-        return atores;
-    }
-
-    public void setAtores(ArrayList<MAtor> atores) {
-        this.atores = atores;
-    }
-
-
 
 }

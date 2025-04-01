@@ -64,6 +64,9 @@ public class TelaConsultaFilmes extends JFrame {
                 FilmeController filmeController = new FilmeController();
                 try {
                     ArrayList<MFilme> filmes = filmeController.listarFilme(nome);
+                    if (filmes.isEmpty()){
+                        JOptionPane.showMessageDialog(null, "banco filme vazio");
+                    }
 
                     filmes.forEach((MFilme filme) -> {
                         model.addRow(new Object[] {

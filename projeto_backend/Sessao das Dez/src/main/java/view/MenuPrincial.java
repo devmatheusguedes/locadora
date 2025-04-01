@@ -12,7 +12,7 @@ import java.util.Objects;
 public class MenuPrincial extends JFrame {
     private static final int largura = TelaSize.SMALL.getWidth();
     private static final int altura = TelaSize.SMALL.getHeight();
-    private static final Dimension eixos = Toolkit.getDefaultToolkit().getScreenSize();
+    private static final Dimension eixos = Toolkit.getDefaultToolkit().getScreenSize();//
 
 
 
