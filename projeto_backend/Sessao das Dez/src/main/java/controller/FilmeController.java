@@ -32,6 +32,12 @@ public class FilmeController {
         return false;
     }
 
+    public MFilme buscarFilme(Integer id_Filme)throws ExceptionDAO{
+        MFilme filme = new MFilme();
+        filme.setCodFilme(id_Filme);
+        return filme.bucarFilme(filme);
+    }
+
     public boolean apagar(Integer cod_filme) throws ExceptionDAO{
         if (cod_filme != 0){
             MFilme filme = new MFilme();

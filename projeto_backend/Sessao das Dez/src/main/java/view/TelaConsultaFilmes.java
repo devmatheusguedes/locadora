@@ -130,9 +130,14 @@ public class TelaConsultaFilmes extends JFrame {
             menuCadastroFilme.preencher(cod_filme, titulo, genero, sinopse, duracao);
             menuCadastroFilme.setVisible(true);
         }else {
-            MenuCadastroItem menuCadastroItem = (MenuCadastroItem) this.menuCadastro;
-            menuCadastroItem.preencher(cod_filme, titulo);
-            menuCadastroItem.setVisible(true);
+            if(tipoTela.equals("MenuCadastroItem")) {
+                MenuCadastroItem menuCadastroItem = (MenuCadastroItem) this.menuCadastro;
+                menuCadastroItem.preencher(cod_filme, titulo);
+                menuCadastroItem.setVisible(true);
+            } else{
+                MenuCadastroAtor menuCadastroAtor = (MenuCadastroAtor) this.menuCadastro;
+                menuCadastroAtor.preencherFilme(cod_filme, titulo);
+            }
         }
         this.dispose();
     }

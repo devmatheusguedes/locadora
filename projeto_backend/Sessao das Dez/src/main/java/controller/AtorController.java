@@ -7,10 +7,12 @@ import model.MFilme;
 import java.util.ArrayList;
 
 public class AtorController {
-    public boolean cadastroAtor(String nacionalidade, String nome) throws ExceptionDAO {
+    public boolean cadastroAtor(String nacionalidade, String nome, Integer id_filme) throws ExceptionDAO {
         if (nacionalidade != null && nacionalidade.length() > 0 && nome != null && nome.length() > 0){
-            MAtor ator = new MAtor(nome, nacionalidade);
-            ator.cadastrpAtor(ator);
+            MFilme filme = new MFilme();
+            filme.setCodFilme(id_filme);
+            MAtor ator = new MAtor(nome, nacionalidade, id_filme);
+            ator.cadastrarAtor(ator);
             return true;
         }
         return false;
@@ -20,9 +22,9 @@ public class AtorController {
         return new MAtor().listarAtores(nome);
     }
 
-    public boolean alterar(Integer cod_ator, String nome, String nacionalidade) throws ExceptionDAO {
+    public boolean alterar(Integer cod_ator, String nome, String nacionalidade, Integer id_filme) throws ExceptionDAO {
         if (nacionalidade != null && nacionalidade.length()>0 && nome != null && nome.length()>0){
-            MAtor ator = new MAtor(nome, nacionalidade);
+            MAtor ator = new MAtor(nome, nacionalidade, id_filme);
             ator.setCodAtor(cod_ator);
             ator.alterar(ator);
             return true;

@@ -11,15 +11,19 @@ public class MAtor {
 private Integer codAtor;
     private String nome;
     private String nacionalidade;
-    private ArrayList<MFilme> filmes = new ArrayList<MFilme>();
+    private MFilme filme;
 
     public MAtor(){
-
+        MFilme filme = new MFilme();
+        this.setFilmes(filme);
     }
 
-    public MAtor(String nome, String nacionalidade){
+    public MAtor(String nome, String nacionalidade, Integer id_filme){
         this.nome = nome;
         this.nacionalidade = nacionalidade;
+        MFilme filme1 = new MFilme();
+        filme1.setCodFilme(id_filme);
+        this.setFilmes(filme1);
     }
 
     public void alterar(MAtor ator) throws ExceptionDAO{
@@ -54,15 +58,15 @@ private Integer codAtor;
         this.nacionalidade = nacionalidade;
     }
 
-    public ArrayList<MFilme> getFilmes() {
-        return filmes;
+    public MFilme getFilmes() {
+        return filme;
     }
 
-    public void setFilmes(ArrayList<MFilme> filmes) {
-        this.filmes = filmes;
+    public void setFilmes(MFilme filme) {
+        this.filme = filme;
     }
 
-    public void cadastrpAtor(MAtor ator) throws ExceptionDAO {
+    public void cadastrarAtor(MAtor ator) throws ExceptionDAO {
         new AtorDAO().cadastrarAtor(ator);
     }
 

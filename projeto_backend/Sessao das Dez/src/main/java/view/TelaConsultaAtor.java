@@ -1,6 +1,7 @@
 package view;
 
 import controller.AtorController;
+import controller.FilmeController;
 import dao.AtorDAO;
 import dao.ExceptionDAO;
 import model.MAtor;
@@ -23,6 +24,7 @@ public class TelaConsultaAtor extends JFrame{
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
     private final Dimension tamanhoDaTela = toolkit.getScreenSize();
     private MenuCadastroAtor menuCadastroAtor;
+    private String nomeFilme;
 
     public TelaConsultaAtor(MenuCadastroAtor menuCadastroAtor){
         super("tela de consulta do ator");
@@ -53,7 +55,7 @@ public class TelaConsultaAtor extends JFrame{
 
         jButtonPesquisar.setBounds(560, 70, 110, 30);
 
-        String[] nomeDaColuna = {"código", "nome", "nacionalidade"};
+        String[] nomeDaColuna = {"código", "nome", "nacionalidade", "id_filme"};
         DefaultTableModel modelo = new DefaultTableModel(nomeDaColuna, 0);
         jTable = new JTable(modelo);
         JScrollPane painelTabela = new JScrollPane(jTable);
@@ -68,12 +70,16 @@ public class TelaConsultaAtor extends JFrame{
                 AtorController atorController = new AtorController();
                 try {
                     ArrayList<MAtor> atores = atorController.listarAtores(nome);
+                    if (atores.isEmpty()){
+                        JOptionPane.showMessageDialog(null, "banco ator nulo!");
+                    }
 
                     atores.forEach((MAtor ator) ->{
                         model.addRow(new Object[]{
                                 ator.getCodAtor(),
                                 ator.getNome(),
-                                ator.getNacionalidade()
+                                ator.getNacionalidade(),
+                                ator.getFilmes().getCodFilme()
                         });
                     });
                     jTable.setModel(model);
@@ -95,7 +101,13 @@ public class TelaConsultaAtor extends JFrame{
                     Integer cod_ator = (Integer) jTable.getModel().getValueAt(row, 0);
                     String nome = (String) jTable.getModel().getValueAt(row, 1);
                     String nacionalidade = (String) jTable.getModel().getValueAt(row, 2);
-                    preencharCadastroAtor(cod_ator, nome, nacionalidade);
+                    Integer cod_filme = (Integer) jTable.getModel().getValueAt(row, 3);
+                        try {
+                            nomeFilme = new FilmeController().buscarFilme(cod_filme).getTitulo();
+                        } catch (ExceptionDAO ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        preencharCadastroAtor(cod_ator, nome, nacionalidade, cod_filme, nomeFilme);
 
                 }}
             }
@@ -160,8 +172,8 @@ public class TelaConsultaAtor extends JFrame{
         this.menuCadastroAtor.setVisible(true);
     }
 
-    public void preencharCadastroAtor(Integer cod_ator, String nome, String nacionalidade){
-        this.menuCadastroAtor.preencher(cod_ator, nome, nacionalidade);
+    public void preencharCadastroAtor(Integer cod_ator, String nome, String nacionalidade, Integer codFilme, String nomeFilme){
+        this.menuCadastroAtor.preencherAtor(cod_ator, nome, nacionalidade, codFilme, nomeFilme);
         this.menuCadastroAtor.setVisible(true);
         this.dispose();
     }

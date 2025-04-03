@@ -11,7 +11,8 @@ import java.awt.event.ActionListener;
 public class MenuCadastroAtor extends JFrame {
     private final Dimension eixos = Toolkit.getDefaultToolkit().getScreenSize();
     private Integer cod_ator = 0;
-    private JTextField txfNome;
+    private Integer cod_filme = 0;
+    private JTextField txfNome, txNomeFilme;
     private JComboBox cmbxNacionalidade;
 
     public MenuCadastroAtor(){
@@ -28,6 +29,7 @@ public class MenuCadastroAtor extends JFrame {
         JPanel fundoFive = new JPanel();
 
         JLabel lblNome = new JLabel("Nome");
+        JLabel lbFilme = new JLabel("Titulo Do Filme: ");
         txfNome = new JTextField();
         JLabel lblNacionalidade = new JLabel("Nacionalidade");
         JButton btnCnacelar = new JButton("Cancelar");
@@ -35,6 +37,7 @@ public class MenuCadastroAtor extends JFrame {
         JButton btnLimpar = new JButton("Limpar");
         JButton btnSalvar = new JButton("Salvar");
         JButton btnApagar = new JButton("Apagar");
+        JButton buscarFilme = new JButton("buscar Filme");
         cmbxNacionalidade = new JComboBox<>(new String[]{"Brasileiro", "Americano",
                 "Dinamarquês", "português"});
 
@@ -47,6 +50,15 @@ public class MenuCadastroAtor extends JFrame {
         lblNacionalidade.setForeground(new Color(255, 255, 255));
         lblNacionalidade.setBounds(10, 60, 120, 20);
         cmbxNacionalidade.setBounds(140, 60, 120, 20);
+
+        lbFilme.setFont(new Font("serif", Font.PLAIN, 14));
+        lbFilme.setForeground(new Color(255, 255, 255));
+        lbFilme.setBounds(10, 110, 120, 20);
+        txNomeFilme = new JTextField();
+        txNomeFilme.setBounds(140, 110, 300, 20);
+        buscarFilme.setBackground(new Color(144, 6, 39));
+        buscarFilme.setForeground(new Color(253, 253, 253));
+        buscarFilme.setBounds(450, 110, 150, 20);
 
         btnSalvar.setBounds(110, 210, 80, 20);
         btnLimpar.setBounds(210, 210, 80, 20);
@@ -70,6 +82,9 @@ public class MenuCadastroAtor extends JFrame {
         fundoTwo.add(txfNome);
         fundoTwo.add(lblNacionalidade);
         fundoTwo.add(cmbxNacionalidade);
+        fundoTwo.add(lbFilme);
+        fundoTwo.add(txNomeFilme);
+        fundoTwo.add(buscarFilme);
         fundoTwo.add(btnSalvar);
         fundoTwo.add(btnLimpar);
         fundoTwo.add(btnCnacelar);
@@ -114,6 +129,13 @@ public class MenuCadastroAtor extends JFrame {
             }
         });
 
+        buscarFilme.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TelaConsultaFilmes telaConsultaFilmes = new TelaConsultaFilmes(getMenuCadastro());
+            }
+        });
+
         btnLimpar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -130,19 +152,22 @@ public class MenuCadastroAtor extends JFrame {
 
                 try {
                 AtorController atorController = new AtorController();
+                String mensagem;
                 if (cod_ator == 0) {
-                    sucesso = atorController.cadastroAtor(nacionalidade, nome);
+                    sucesso = atorController.cadastroAtor(nacionalidade, nome, cod_filme);
+                    mensagem = "novo cadastro realizado com sucesso";
                 }else {
-                    sucesso = atorController.alterar(cod_ator, nome, nacionalidade);
-                    System.out.println("alteração concluida.");
+                    sucesso = atorController.alterar(cod_ator, nome, nacionalidade, cod_filme);
+                    mensagem = "alteração concluida.";
                 }
 
 
-                if (sucesso){
-                    JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!");
-
+                if (sucesso) {
+                    JOptionPane.showMessageDialog(null, mensagem);
                 }else {
-                    JOptionPane.showMessageDialog(null, "Preencha todos os campos.");
+                    mensagem = "falha ao cadastrar/alterar Ator.";
+                    JOptionPane.showMessageDialog(null, mensagem);
+
                 }
 
                 } catch(Exception exception) {
@@ -177,9 +202,11 @@ public class MenuCadastroAtor extends JFrame {
         return this;
     }
 
-    public void preencher(Integer cod_ator, String nome, String nacionalidade){
+    public void preencherAtor(Integer cod_ator, String nomeAtor, String nacionalidade, Integer id_filme, String nomeFilme){
         this.cod_ator = cod_ator;
-        this.txfNome.setText(nome);
+        this.cod_filme = id_filme;
+        this.txfNome.setText(nomeAtor);
+        this.txNomeFilme.setText(nomeFilme);
 
         for (int contador = 0; contador < cmbxNacionalidade.getItemCount(); contador++){
             if(cmbxNacionalidade.getItemAt(contador).equals(nacionalidade)){
@@ -191,11 +218,20 @@ public class MenuCadastroAtor extends JFrame {
         }
     }
 
+    public void preencherFilme(Integer id_filme, String nomeFilme){
+        this.cod_filme = id_filme;
+        this.txNomeFilme.setText(nomeFilme);
+    }
+
     public void apagarAtor()throws ExceptionDAO {
         boolean status;
         AtorController atorController = new AtorController();
         status = atorController.deletarAtor(this.cod_ator);
         if (status) JOptionPane.showMessageDialog(null, "Ator deletado com sucesso!", "Status", JOptionPane.PLAIN_MESSAGE);
         else JOptionPane.showMessageDialog(null, "Erro ao deletar Ator", "Status", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public JFrame getMenuCadastro(){
+        return this;
     }
 }

@@ -10,6 +10,45 @@ import java.util.ArrayList;
 
 @SuppressWarnings("ThrowFromFinallyBlock")
 public class FilmeDAO {
+
+    public MFilme buscarFilme(Integer id_filme) throws ExceptionDAO {
+        String sql = "SELECT * FROM filme WHERE id_filme = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        MFilme filme = new MFilme();
+        try {
+            connection = new ConnectorMVC().getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id_filme);
+            ResultSet rS = preparedStatement.executeQuery();
+            while (rS.next()){
+            filme.setCodFilme(rS.getInt("id_filme"));
+            filme.setTitulo(rS.getString("titulo"));
+            filme.setSinopse(rS.getString("sinopse"));
+            filme.setGenero(rS.getString("genero"));
+            filme.setDuracao(rS.getInt("duracao"));
+            }
+        }catch (SQLException sqlException){
+            throw new ExceptionDAO("erro ao buscar filme: "+sqlException);
+        }finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException sqlException) {
+                throw new ExceptionDAO("erro ao fechar conexão: " + sqlException);
+            }
+
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException sqlException) {
+                throw new ExceptionDAO("ERRO ao fechar preparedStement: " + sqlException);
+            }
+        }
+        return filme;
+    }
     public void cadastrarFilme(MFilme filme) throws ExceptionDAO{
         String sql = "INSERT INTO public.filme(" +
                 "titulo, genero, sinopse, duracao)" +
@@ -96,7 +135,7 @@ public class FilmeDAO {
 
                 while (rs.next()){
                     MFilme filme = new MFilme();
-                    filme.setCodFilme(rs.getInt("cod_filme"));
+                    filme.setCodFilme(rs.getInt("id_filme"));
                     filme.setTitulo(rs.getString("titulo"));
                     filme.setDuracao(rs.getInt("duracao"));
                     filme.setSinopse(rs.getString("sinopse"));

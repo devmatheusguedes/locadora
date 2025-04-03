@@ -26,6 +26,10 @@ public class MFilme {
         new FilmeDAO().cadastrarFilme(filme);
     }
 
+    public MFilme bucarFilme(MFilme filme) throws ExceptionDAO{
+        return new FilmeDAO().buscarFilme(filme.getCodFilme());
+    }
+
     public ArrayList<MFilme> listarFilmes(String nome) throws ExceptionDAO{
         return new FilmeDAO().listarFilmes(nome);
     }

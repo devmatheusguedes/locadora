@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @SuppressWarnings("ThrowFromFinallyBlock")
 public class AtorDAO {
     public void cadastrarAtor(MAtor ator) throws ExceptionDAO{
-        String sql = "INSERT INTO public.ator(nome, nacionalidade)VALUES (?, ?)";
+        String sql = "INSERT INTO public.ator(nome, nacionalidade, filme)VALUES (?, ?, ?)";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -20,6 +20,8 @@ public class AtorDAO {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, ator.getNome());
             preparedStatement.setString(2, ator.getNacionalidade());
+            preparedStatement.setInt(3, ator.getFilmes().getCodFilme());
+
             preparedStatement.execute();
         }catch (SQLException e){
             throw new ExceptionDAO("ERRO ao cadastrar ator: "+ e);
@@ -60,9 +62,10 @@ public class AtorDAO {
                 while (rs.next()){
                     //cod_ator, nome, nacionalidade
                     MAtor ator = new MAtor();
-                    ator.setCodAtor(rs.getInt("cod_ator"));
+                    ator.setCodAtor(rs.getInt("id_ator"));
                     ator.setNacionalidade(rs.getString("nacionalidade"));
                     ator.setNome(rs.getString("nome"));
+                    ator.getFilmes().setCodFilme(rs.getInt("id_filme"));
 
                     atores.add(ator);
                 }
@@ -96,7 +99,7 @@ public class AtorDAO {
 
     @SuppressWarnings("ThrowFromFinallyBlock")
     public void alterar(MAtor ator) throws ExceptionDAO{
-        String sql = "update ator set nome = ?, nacionalidade = ? where cod_ator = ?";
+        String sql = "update ator set nome = ?, nacionalidade = ? where id_ator = ?";
         Connection conexao = null;
         PreparedStatement pstatement = null;
 
@@ -131,7 +134,7 @@ public class AtorDAO {
     }
 
     public void deletarAtor(MAtor ator) throws ExceptionDAO{
-        String sql = "delete from ator where cod_ator = ?";
+        String sql = "delete from ator where id_ator = ?";
         Connection conexao = null;
         PreparedStatement pStatement = null;
 
