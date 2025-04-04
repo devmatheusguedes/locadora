@@ -38,7 +38,7 @@ public class MenuCadastroAtor extends JFrame {
         JButton btnSalvar = new JButton("Salvar");
         JButton btnApagar = new JButton("Apagar");
         JButton buscarFilme = new JButton("buscar Filme");
-        cmbxNacionalidade = new JComboBox<>(new String[]{"Brasileiro", "Americano",
+        cmbxNacionalidade = new JComboBox<>(new String[]{"Nacionalidade", "Brasileiro", "Americano",
                 "Dinamarquês", "português"});
 
         lblNome.setFont(new Font("serif", Font.PLAIN, 14));
@@ -139,7 +139,7 @@ public class MenuCadastroAtor extends JFrame {
         btnLimpar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                iniciar();
+                limparTela();
             }
         });
 
@@ -166,6 +166,7 @@ public class MenuCadastroAtor extends JFrame {
                     JOptionPane.showMessageDialog(null, mensagem);
                 }else {
                     mensagem = "falha ao cadastrar/alterar Ator.";
+                    mensagem += "\nCampos Obrigatórios: selecionar um filme | Nome do ator | Nacionalidade |";
                     JOptionPane.showMessageDialog(null, mensagem);
 
                 }
@@ -233,5 +234,13 @@ public class MenuCadastroAtor extends JFrame {
 
     public JFrame getMenuCadastro(){
         return this;
+    }
+
+    private void limparTela(){
+        txfNome.setText("");
+        txNomeFilme.setText("");
+        cmbxNacionalidade.setSelectedIndex(0);
+        cod_filme = 0;
+        cod_ator = 0;
     }
 }

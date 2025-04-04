@@ -11,6 +11,7 @@ import java.util.ArrayList;
 @SuppressWarnings("ThrowFromFinallyBlock")
 public class FilmeDAO {
 
+
     public MFilme buscarFilme(Integer id_filme) throws ExceptionDAO {
         String sql = "SELECT * FROM filme WHERE id_filme = ?";
         Connection connection = null;
@@ -27,6 +28,7 @@ public class FilmeDAO {
             filme.setSinopse(rS.getString("sinopse"));
             filme.setGenero(rS.getString("genero"));
             filme.setDuracao(rS.getInt("duracao"));
+
             }
         }catch (SQLException sqlException){
             throw new ExceptionDAO("erro ao buscar filme: "+sqlException);

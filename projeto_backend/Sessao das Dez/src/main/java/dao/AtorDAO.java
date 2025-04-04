@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @SuppressWarnings("ThrowFromFinallyBlock")
 public class AtorDAO {
     public void cadastrarAtor(MAtor ator) throws ExceptionDAO{
-        String sql = "INSERT INTO public.ator(nome, nacionalidade, filme)VALUES (?, ?, ?)";
+        String sql = "INSERT INTO public.ator(nome, nacionalidade, id_filme)VALUES (?, ?, ?)";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
