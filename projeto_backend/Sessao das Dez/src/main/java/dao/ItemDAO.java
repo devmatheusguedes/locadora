@@ -15,17 +15,17 @@ public class ItemDAO {
 
     public void salvar(MItem item) throws ExceptionDAO {
         String sql = "INSERT INTO item" +
-                "(cod_filme, titulo, preco, tipo_de_midia) " +
-                "VALUES (?,?,?, ?)";
+                "(id_filme, titulo, preco, tipo) " +
+                "VALUES (?,?,?,?)";
         Connection connection = null;
         PreparedStatement pStatement = null;
         try {
             connection = new ConnectorMVC().getConnection();
             pStatement = connection.prepareStatement(sql);
             pStatement.setInt(1, item.getFilme().getCodFilme());
-            pStatement.setString(4, item.getFilme().getTitulo());
-            pStatement.setDouble(2, item.getPreco());
-            pStatement.setString(3, item.getTipo());
+            pStatement.setString(2, item.getFilme().getTitulo());
+            pStatement.setDouble(3, item.getPreco());
+            pStatement.setString(4, item.getTipo());
             pStatement.execute();
         }catch (SQLException exception){
             throw new ExceptionDAO("Erro ao cadastar item: "+exception);
@@ -49,9 +49,9 @@ public class ItemDAO {
 
     public ArrayList<MItem> listarItems(String titulo) throws ExceptionDAO {
 
-        String sql = "SELECT it.cod_item, it.preco, it.tipo_de_midia, fi.cod_filme, fi.titulo\n" +
+        String sql = "SELECT it.id_item, it.preco, it.tipo, fi.id_filme, fi.titulo\n" +
                 "FROM public.item it\n" +
-                "INNER JOIN public.filme fi ON it.cod_filme = fi.cod_filme\n" +
+                "INNER JOIN public.filme fi ON it.id_filme = fi.id_filme\n" +
                 "WHERE fi.titulo LIKE '"+titulo+"%'\n" +
                 "ORDER BY fi.titulo;";
         Connection connection = null;
@@ -67,11 +67,11 @@ public class ItemDAO {
                 while (rS.next()){
                     MItem item = new MItem();
                     MFilme filme = new MFilme();
-                    item.setCod_item(rS.getInt("cod_item"));
-                    filme.setCodFilme(rS.getInt("cod_filme"));
+                    item.setCod_item(rS.getInt("id_item"));
+                    filme.setCodFilme(rS.getInt("id_filme"));
                     filme.setTitulo(rS.getString("titulo"));
                     item.setFilme(filme);
-                    item.setTipo(rS.getString("tipo_de_midia"));
+                    item.setTipo(rS.getString("tipo"));
                     item.setPreco(rS.getDouble("preco"));
                     itens.add(item);
                     System.out.println(itens);
@@ -102,7 +102,7 @@ public class ItemDAO {
     }
 
     public void alterar(MItem item)throws ExceptionDAO{
-        String sql = "update item set cod_filme = ?, preco = ?, tipo_de_midia = ? where cod_item = ?";
+        String sql = "update item set id_filme = ?, preco = ?, tipo = ? where id_item = ?";
         Connection connection = null;
         PreparedStatement pStatement = null;
         try {
@@ -136,7 +136,7 @@ public class ItemDAO {
 
 
     public void apagar(int cod_item) throws ExceptionDAO {
-        String sql = "delete from item where cod_item = ?";
+        String sql = "delete from item where id_item = ?";
         Connection connection = null;
         PreparedStatement pStatement = null;
         try {

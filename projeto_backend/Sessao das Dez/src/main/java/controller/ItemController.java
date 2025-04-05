@@ -10,9 +10,9 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 public class ItemController {
-public boolean salvar(Integer cod_filme, String tipo, double preco, String titulo)throws ExceptionDAO {
-    if(cod_filme>0 && !tipo.isEmpty()&& preco>0){
-        MItem item = new MItem(cod_filme, tipo, preco, titulo);
+public boolean salvar(Integer id_filme, String tipo, double preco, String titulo)throws ExceptionDAO {
+    if(id_filme>0 && !tipo.isEmpty()&& preco>0){
+        MItem item = new MItem(id_filme, tipo, preco, titulo);
         item.salvar(item);
         return true;
     }else {
