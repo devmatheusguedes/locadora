@@ -10,7 +10,6 @@ public class MItem {
     private Integer cod_item;
     private double preco;
     private String tipo;
-    private java.sql.Date dataDevolucao;
     private MFilme filme;
     private ClienteDAO cliente;
 
@@ -52,13 +51,7 @@ public class MItem {
         this.tipo = tipo;
     }
 
-    public java.sql.Date getDataDevolucao() {
-        return dataDevolucao;
-    }
 
-    public void setDataDevolucao(Date dataDevolucao) {
-        this.dataDevolucao = dataDevolucao;
-    }
 
     public MFilme getFilme() {
         return filme;
