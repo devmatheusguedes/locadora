@@ -62,7 +62,7 @@ public class ClienteDAO {
                 while (Rs.next()){
                     MCliente cliente = new MCliente();
                     cliente.setNome(Rs.getString("nome"));
-                    cliente.setCodCliente(Rs.getInt("cod_cliente"));
+                    cliente.setCodCliente(Rs.getInt("id_cliente"));
                     cliente.setCpf(Rs.getString("cpf"));
                     cliente.setEndereco(Rs.getString("endereco"));
                     cliente.setEmail(Rs.getString("email"));

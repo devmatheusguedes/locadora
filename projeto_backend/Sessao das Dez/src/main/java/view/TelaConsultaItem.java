@@ -89,7 +89,7 @@ public class TelaConsultaItem extends JFrame{
                     jTable.setModel(model);
                 } catch (ExceptionDAO exception) {
                     Logger.getLogger(TelaConsultaFilmes.class.getName()).log(Level.SEVERE,
-                            "problema ao listar filme na tela de cadastro", exception);
+                            "problema ao listar filme na tela de consulta", exception);
                     exception.printStackTrace();
 
                 }

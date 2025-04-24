@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 public class TelaConsultaCliente extends JFrame{
     private JLabel icone, jLabel2;
@@ -20,11 +20,11 @@ public class TelaConsultaCliente extends JFrame{
     private static final int y = 490;
     private final Toolkit toolkit = Toolkit.getDefaultToolkit();
     private final Dimension tamanhoDaTela = toolkit.getScreenSize();
-    private MenuCadastroCliente menuCadastroCliente;
+    private JFrame janela;
 
-    public TelaConsultaCliente(MenuCadastroCliente menuCadastroCliente){
+    public TelaConsultaCliente(JFrame janela){
         super("Tela de consulta do cliente");
-        this.menuCadastroCliente = menuCadastroCliente;
+        this.janela = janela;
         this.iniciar();
     }
 
@@ -93,10 +93,9 @@ public class TelaConsultaCliente extends JFrame{
                         String cpf = (String) jTable.getModel().getValueAt(row, 2);
                         String email = (String) jTable.getModel().getValueAt(row, 3);
                         String endereco = (String) jTable.getModel().getValueAt(row, 4);
-                        Date data_nascimento = (Date) jTable.getModel().getValueAt(row, 5);
-                        menuCadastroCliente.preencher(cod_cliente, nome, cpf, email, endereco, data_nascimento);
-                        menuCadastroCliente.setVisible(true);
-                        dispose();
+                        java.sql.Date data_nascimento = (java.sql.Date) jTable.getModel().getValueAt(row, 5);
+                        preecherCadastro(cod_cliente, nome, cpf, email, endereco, data_nascimento);
+
                     }
                 }
             }
@@ -124,9 +123,25 @@ public class TelaConsultaCliente extends JFrame{
         this.setVisible(true);
 
     }
+    private void preecherCadastro(Integer cod_cliente, String nome, String cpf, String email, String endereco,
+                                  java.sql.Date data_nascimento){
+        String tipoTela = this.janela.getClass().getSimpleName();
+        if (tipoTela.equals("AlugarView")){
+            AlugarView alugarView = (AlugarView) this.janela;
+            alugarView.preencherCampoCliente(nome);
+            alugarView.setVisible(true);
+            this.dispose();
+        } else if (tipoTela.equals("MenuCadastroCliente")) {
+            MenuCadastroCliente menuCadastroCliente = (MenuCadastroCliente) janela;
+            menuCadastroCliente.preencher(cod_cliente, nome, cpf, email, endereco, data_nascimento);
+            menuCadastroCliente.setVisible(true);
+            this.dispose();
+
+        }
+    }
 
     private void fecharTela(){
         this.dispose();
-        this.menuCadastroCliente.setVisible(true);
+        this.janela.setVisible(true);
     }
 }

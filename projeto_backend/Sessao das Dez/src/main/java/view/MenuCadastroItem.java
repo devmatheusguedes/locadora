@@ -188,7 +188,7 @@ public class MenuCadastroItem extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String tipo = cbTipo.getSelectedItem().toString();
-                String tituloFilme = lTituloFilme.getText();
+                String tituloFilme = tfTituloFilme.getText();
                 double preco = Integer.parseInt(sPreco.getValue().toString());
                 boolean sucesso;
 
