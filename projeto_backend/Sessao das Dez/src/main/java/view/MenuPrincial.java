@@ -109,7 +109,8 @@ public class MenuPrincial extends JFrame {
         miConsultar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("ação consultar");
+                AlugarView alugarView = new AlugarView();
+                TelaConsultaLocacao locacao = new TelaConsultaLocacao((JFrame) alugarView);
             }
         });
 
@@ -134,7 +135,6 @@ public class MenuPrincial extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MenuCadastroFilme filme = new MenuCadastroFilme();
-                System.out.println("ação filme");
 
             }
         });
@@ -142,7 +142,7 @@ public class MenuPrincial extends JFrame {
         miAlugar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("ação alugar");
+                AlugarView alugarView = new AlugarView();
             }
         });
 

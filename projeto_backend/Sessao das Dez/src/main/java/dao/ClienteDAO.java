@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class ClienteDAO {
     public void cadastrarCliente(MCliente cliente) throws ExceptionDAO{
         String sql = "INSERT INTO public.cliente("+
-                "cpf, nome, endereco, data_de_nascimento, email)" +
+                "cpf, nome, endereco, data_nascimento, email)" +
                 "VALUES (?, ?, ?, ?, ?);";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -66,7 +66,7 @@ public class ClienteDAO {
                     cliente.setCpf(Rs.getString("cpf"));
                     cliente.setEndereco(Rs.getString("endereco"));
                     cliente.setEmail(Rs.getString("email"));
-                    cliente.setDataNascimento(Rs.getDate("data_de_nascimento"));
+                    cliente.setDataNascimento(Rs.getDate("data_nascimento"));
                     clientes.add(cliente);
                 }
             }
@@ -95,8 +95,8 @@ public class ClienteDAO {
 
     public void alterar(MCliente cliente) throws ExceptionDAO {
         //String nome, String cpf, String endereco, Date dataNascimento, String email
-        String sql = "update cliente set nome = ?, cpf = ?, endereco = ?, data_de_nascimento = ?," +
-                " email = ? where cod_cliente = ?";
+        String sql = "update cliente set nome = ?, cpf = ?, endereco = ?, data_nascimento = ?," +
+                " email = ? where id_cliente = ?";
         Connection conexao = null;
         PreparedStatement pStatement = null;
 
@@ -127,7 +127,7 @@ public class ClienteDAO {
     }
 
     public void apagarCliente(MCliente cliente) throws ExceptionDAO{
-        String sql = "delete from cliente where cod_cliente = ?";
+        String sql = "delete from cliente where id_cliente = ?";
         Connection connection = null;
         PreparedStatement pStatement = null;
         try {

@@ -52,7 +52,7 @@ public class ItemDAO {
         String sql = "SELECT it.id_item, it.preco, it.tipo, fi.id_filme, fi.titulo\n" +
                 "FROM public.item it\n" +
                 "INNER JOIN public.filme fi ON it.id_filme = fi.id_filme\n" +
-                "WHERE fi.titulo LIKE '"+titulo+"%'\n" +
+                "WHERE fi.titulo LIKE '%"+titulo+"%'\n" +
                 "ORDER BY fi.titulo;";
         Connection connection = null;
         PreparedStatement pStatement = null;

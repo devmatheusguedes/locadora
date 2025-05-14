@@ -5,14 +5,15 @@ import dao.LocacaoDAO;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class LocacaoModel {
     private Integer id_locacao;
+    private MItem item;
+    private MCliente cliente;
     private String status;
     private Date data_aluguel;
     private Date data_devolucao;
-    private MItem item;
-    private MCliente cliente;
 
     public LocacaoModel(){
 
@@ -31,13 +32,14 @@ public class LocacaoModel {
     public void salvar(LocacaoModel locacaoModel)throws ExceptionDAO {
         new LocacaoDAO().salvar(locacaoModel);
     }
-//    public ArrayList<LocacaoModel> listar(){
-//
-//    }
 
-    public void alterar(){
-
+    public void alterar(LocacaoModel locacaoModel) throws ExceptionDAO{
+        new LocacaoDAO().alterar(locacaoModel);
     }
+
+   public ArrayList<Map<String, Object>> listar(String nome_cliente)throws ExceptionDAO{
+        return new LocacaoDAO().listar(nome_cliente);
+   }
 
     public void apagar(){
 

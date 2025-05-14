@@ -1,18 +1,25 @@
 package view;
 
+import controller.LocacaoController;
+import dao.ExceptionDAO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.time.LocalDate;
 
 public class AlugarView extends JFrame {
-    private JButton btnPesquisaCliente, btnBuscarFilmeItem, btnAlugar;
+    private JButton btnPesquisaCliente, btnBuscarFilmeItem, btnAlugar, btnLimpar;
     private JTextField jtCliente, jtFilme, jtTipoDeMidia, jtPreco;
     private JLabel jlCliente, jlFilme,
             jlMidia, jlPreco;
     private Dimension eixos = Toolkit.getDefaultToolkit().getScreenSize();
     private int largura = TelaSize.SMALL.getWidth(), altura = TelaSize.SMALL.getHeight();
-
+    private Integer id_cliente = 0, id_item = 0, id_locacao = 0;
+    private String status;
+    private Date data_aluguel, data_devolucao;
     public AlugarView(){
         this.iniciar();
     }
@@ -56,7 +63,10 @@ public class AlugarView extends JFrame {
 
         btnPesquisaCliente.setBounds(360, 20, 120, 30);
         btnBuscarFilmeItem.setBounds(360, 60, 120, 30);
-        btnAlugar.setBounds(70, 300, 120, 30);
+        btnAlugar.setBounds(300, 300, 120, 30);
+
+        btnLimpar = new JButton("Limpar");
+        btnLimpar.setBounds(450, 300, 120, 30);
 
 
 
@@ -73,8 +83,13 @@ public class AlugarView extends JFrame {
         this.add(btnPesquisaCliente);
         this.add(btnBuscarFilmeItem);
         this.add(btnAlugar);
+        this.add(btnLimpar);
 
         this.buttonActionaPesquisaCliente();
+        this.buttonActionPesquisarItem();
+        this.alugarItem();
+        this.limparTela();
+
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
@@ -87,10 +102,154 @@ public class AlugarView extends JFrame {
         });
     }
 
-    public void preencherCampoCliente(String nome){
+    private void buttonActionPesquisarItem(){
+        btnBuscarFilmeItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TelaConsultaItem telaConsultaItem = new TelaConsultaItem((JFrame) getAlugarView());
+            }
+        });
+    }
+
+    public void preencherCampoCliente(String nome, Integer id_cliente){
+
         this.jtCliente.setText(nome);
+        this.id_cliente = id_cliente;
+    }
+
+    public void preencherCampoItem(Integer id_item, String tipo_midia, String nome_filme, double preco){
+        this.id_item = id_item;
+        this.jtTipoDeMidia.setText(tipo_midia);
+        this.jtFilme.setText(nome_filme);
+        this.jtPreco.setText(String.valueOf(preco));
+    }
+
+    public void alugarItem(){
+        btnAlugar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String titulo = jtFilme.getText();
+                String tipo = jtTipoDeMidia.getText();
+                Integer cod_cliente = id_cliente;
+                Integer cod_item = id_item;
+
+                LocalDate data = LocalDate.now();
+                data_aluguel = Date.valueOf(data);
+
+                data_devolucao = Date.valueOf(data.plusDays(10));
+
+                status = "N/P";
+
+                LocacaoController controller = new LocacaoController();
+                try {
+                    String mensagem = "";
+                    boolean isTrue = controller.salvar(id_cliente, id_item, data_aluguel, data_devolucao, status);
+                    if (isTrue){
+                        mensagem += "cadastro realizado com sucesso!";
+                    }else {
+                        mensagem += "preencha todos os campos";
+                    }
+                    JOptionPane.showMessageDialog(null, mensagem);
+
+                } catch (ExceptionDAO ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
     }
     public AlugarView getAlugarView(){
         return this;
+    }
+    private void limparTela(){
+        btnLimpar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                id_item = 0;
+                jtPreco.setText("");
+                jtFilme.setText("");
+                jtTipoDeMidia.setText("");
+            }
+        });
+
+    }
+
+    public JTextField getJtCliente() {
+        return jtCliente;
+    }
+
+    public void setJtCliente(String jtCliente) {
+        this.jtCliente.setText(jtCliente);
+    }
+
+    public JTextField getJtFilme() {
+        return jtFilme;
+    }
+
+    public void setJtFilme(String jtFilme) {
+        this.jtFilme.setText(jtFilme);
+    }
+
+    public JTextField getJtTipoDeMidia() {
+        return jtTipoDeMidia;
+    }
+
+    public void setJtTipoDeMidia(String jtTipoDeMidia) {
+        this.jtTipoDeMidia.setText(jtTipoDeMidia);
+    }
+
+    public JTextField getJtPreco() {
+        return jtPreco;
+    }
+
+    public void setJtPreco(String jtPreco) {
+        this.jtPreco.setText(jtPreco);
+    }
+
+    public Integer getId_cliente() {
+        return id_cliente;
+    }
+
+    public void setId_cliente(Integer id_cliente) {
+        this.id_cliente = id_cliente;
+    }
+
+    public Integer getId_item() {
+        return id_item;
+    }
+
+    public void setId_item(Integer id_item) {
+        this.id_item = id_item;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Date getData_aluguel() {
+        return data_aluguel;
+    }
+
+    public void setData_aluguel(Date data_aluguel) {
+        this.data_aluguel = data_aluguel;
+    }
+
+    public Date getData_devolucao() {
+        return data_devolucao;
+    }
+
+    public void setData_devolucao(Date data_devolucao) {
+        this.data_devolucao = data_devolucao;
+    }
+
+    public Integer getId_locacao() {
+        return id_locacao;
+    }
+
+    public void setId_locacao(Integer id_locacao) {
+        this.id_locacao = id_locacao;
     }
 }

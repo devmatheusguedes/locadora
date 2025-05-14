@@ -121,7 +121,7 @@ public class TelaConsultaItem extends JFrame{
                  String tipo = (String) jTable.getModel().getValueAt(row, 2);
                  double preco = (double) jTable.getModel().getValueAt(row, 3);
                  String titulo = (String) jTable.getModel().getValueAt(row, 4);
-                 preencherMenuCadastroFilme(cod_item, cod_filme, tipo, preco, titulo);
+                 preencherMenuCadastro(cod_item, cod_filme, tipo, preco, titulo);
              }else {
                  String msgm = "nehuma linha selecionada";
                  JOptionPane.showMessageDialog(null, msgm);
@@ -140,11 +140,20 @@ public class TelaConsultaItem extends JFrame{
 
     }
 
-    private void preencherMenuCadastroFilme(Integer cod_item, Integer cod_filme, String tipo, double preco, String titulo) {
+    private void preencherMenuCadastro(Integer cod_item, Integer cod_filme, String tipo, double preco, String titulo) {
+        String tipo_tela = menuCadastro.getClass().getSimpleName();
+        if (tipo_tela.equals("MenuCadastroFilme")){
             MenuCadastroItem menuCadastroItem = (MenuCadastroItem) this.menuCadastro;
             menuCadastroItem.preencher(cod_item, cod_filme, titulo, tipo, preco);
             menuCadastroItem.setVisible(true);
 
+        } else if (tipo_tela.equals("AlugarView")) {
+            AlugarView alugarView = new AlugarView();
+            alugarView.preencherCampoItem(cod_item, tipo, titulo, preco);
+            alugarView.setVisible(true);
+        }else {
+            System.out.println("nada");
+        }
         this.dispose();
     }
 

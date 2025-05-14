@@ -34,7 +34,7 @@ public class TelaConsultaCliente extends JFrame{
         this.setLayout(null);
 
         Icon imageIcon = new ImageIcon("src/main/resources/xicara.png");
-        icone = new JLabel("Consulta filmes", imageIcon, SwingConstants.CENTER);
+        icone = new JLabel("Consulta cliente", imageIcon, SwingConstants.CENTER);
         icone.setHorizontalTextPosition(SwingConstants.RIGHT);
         icone.setBounds(240, 5, 200, 30);
 
@@ -128,7 +128,7 @@ public class TelaConsultaCliente extends JFrame{
         String tipoTela = this.janela.getClass().getSimpleName();
         if (tipoTela.equals("AlugarView")){
             AlugarView alugarView = (AlugarView) this.janela;
-            alugarView.preencherCampoCliente(nome);
+            alugarView.preencherCampoCliente(nome, cod_cliente);
             alugarView.setVisible(true);
             this.dispose();
         } else if (tipoTela.equals("MenuCadastroCliente")) {
