@@ -41,8 +41,8 @@ public class LocacaoModel {
         return new LocacaoDAO().listar(nome_cliente);
    }
 
-    public void apagar(){
-
+    public void apagar(Integer id_locacao) throws ExceptionDAO{
+        new LocacaoDAO().apagar(id_locacao);
     }
 
     public String getStatus() {

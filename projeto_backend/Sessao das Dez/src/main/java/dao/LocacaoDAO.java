@@ -106,8 +106,9 @@ public class LocacaoDAO {
     }
 
     public void alterar(LocacaoModel locacaoModel) throws ExceptionDAO {
-        String sql = "UPDATE locacao SET id_cliente = ?, id_filme = ?, " +
-                "data_aluguel = ?, data_devolucao = ?, status = ?";
+        String sql = "UPDATE locacao SET id_cliente = ?, id_item = ?, " +
+                "data_aluguel = ?, data_devolucao = ?, status = ?" +
+                " WHERE id_locacao = ?";
         Connection connection = null;
         PreparedStatement pStatement = null;
         try {
@@ -118,6 +119,7 @@ public class LocacaoDAO {
             pStatement.setDate(3, locacaoModel.getData_aluguel());
             pStatement.setDate(4, locacaoModel.getData_devolucao());
             pStatement.setString(5, locacaoModel.getStatus());
+            pStatement.setInt(6, locacaoModel.getId_locacao());
             pStatement.execute();
         }catch (SQLException exception){
             throw new ExceptionDAO("Erro ao alterar casdastro da locação! "+exception);
@@ -138,8 +140,40 @@ public class LocacaoDAO {
                 throw new ExceptionDAO("Erro ao fechar Pstatemente na Dao locação! "+exception);
             }
 
+
             }
 
 
+    }
+
+    public void apagar(Integer id_locacao) throws ExceptionDAO {
+        String sql = "DELETE FROM locacao WHERE id_locacao = ?";
+        Connection connection = null;
+        PreparedStatement pStatemente = null;
+
+        try {
+            connection = new ConnectorMVC().getConnection();
+            pStatemente = connection.prepareStatement(sql);
+            pStatemente.setInt(1, id_locacao);
+            pStatemente.execute();
+        }catch (SQLException exception){
+            throw new ExceptionDAO("Erro ao apagar resgistro de locacao: "+exception);
+        }finally {
+            try {
+                if(connection != null){
+                    connection.close();
+                }
+            }catch (SQLException exception){
+                throw new ExceptionDAO("Erro ao fechar conexão locacao: "+exception);
+            }
+
+            try {
+                if (pStatemente != null){
+                    pStatemente.close();
+                }
+            }catch (SQLException exception){
+                throw new ExceptionDAO("Erro ao fechar PreparedStatement locacao: "+exception);
+            }
+        }
     }
 }

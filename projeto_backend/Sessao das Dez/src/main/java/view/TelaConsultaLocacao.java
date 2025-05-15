@@ -126,6 +126,7 @@ public TelaConsultaLocacao(){
                       Date data_devolucao = (Date) jTable.getModel().getValueAt(row, 6);
                       String status = (String) jTable.getModel().getValueAt(row, 7);
                       AlugarView alugarView = (AlugarView) menuCadastro;
+                      alugarView.setId_locacao(id_locacao);
                       alugarView.setId_cliente(id_cliente);
                       alugarView.setId_item(id_item);
                       alugarView.setJtCliente(nome);

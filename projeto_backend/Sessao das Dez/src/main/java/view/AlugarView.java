@@ -8,10 +8,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class AlugarView extends JFrame {
-    private JButton btnPesquisaCliente, btnBuscarFilmeItem, btnAlugar, btnLimpar;
+    private JButton btnPesquisaCliente, btnBuscarFilmeItem, btnAlugar, btnLimpar, btnApagar;
     private JTextField jtCliente, jtFilme, jtTipoDeMidia, jtPreco;
     private JLabel jlCliente, jlFilme,
             jlMidia, jlPreco;
@@ -68,6 +69,9 @@ public class AlugarView extends JFrame {
         btnLimpar = new JButton("Limpar");
         btnLimpar.setBounds(450, 300, 120, 30);
 
+        btnApagar = new JButton("Apagar");
+        btnApagar.setBounds(600, 300, 120, 30);
+
 
 
 
@@ -84,11 +88,12 @@ public class AlugarView extends JFrame {
         this.add(btnBuscarFilmeItem);
         this.add(btnAlugar);
         this.add(btnLimpar);
-
+        this.add(btnApagar);
         this.buttonActionaPesquisaCliente();
         this.buttonActionPesquisarItem();
         this.alugarItem();
         this.limparTela();
+        this.apagar();
 
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -128,10 +133,6 @@ public class AlugarView extends JFrame {
         btnAlugar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String titulo = jtFilme.getText();
-                String tipo = jtTipoDeMidia.getText();
-                Integer cod_cliente = id_cliente;
-                Integer cod_item = id_item;
 
                 LocalDate data = LocalDate.now();
                 data_aluguel = Date.valueOf(data);
@@ -141,14 +142,20 @@ public class AlugarView extends JFrame {
                 status = "N/P";
 
                 LocacaoController controller = new LocacaoController();
+                boolean isTrue = false;
                 try {
                     String mensagem = "";
-                    boolean isTrue = controller.salvar(id_cliente, id_item, data_aluguel, data_devolucao, status);
-                    if (isTrue){
-                        mensagem += "cadastro realizado com sucesso!";
+                    if(id_locacao == 0) {
+                        isTrue = controller.salvar(id_cliente, id_item, data_aluguel, data_devolucao, status);
+                        mensagem += "Cadastro realizado com sucesso!";
                     }else {
-                        mensagem += "preencha todos os campos";
+                        isTrue = controller.alterar(id_locacao, id_cliente, id_item, data_aluguel, data_devolucao, status);
+                        mensagem += "Alteração realizado com sucesso!";
                     }
+                    if (!isTrue){
+                        mensagem += "Preencha todos os campos.";
+                    }
+
                     JOptionPane.showMessageDialog(null, mensagem);
 
                 } catch (ExceptionDAO ex) {
@@ -157,20 +164,44 @@ public class AlugarView extends JFrame {
             }
         });
     }
-    public AlugarView getAlugarView(){
-        return this;
+
+    private void apagar(){
+        btnApagar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LocacaoController locacaoController = new LocacaoController();
+                String mensagem = "";
+                boolean istrue;
+                try {
+                    istrue = locacaoController.apagar(id_locacao);
+                    if (istrue){
+                        mensagem += "registro apagado com sucesso";
+                    }else mensagem += "selecione um resgitro.";
+
+                    JOptionPane.showMessageDialog(null, mensagem);
+                }catch (ExceptionDAO ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
     }
     private void limparTela(){
         btnLimpar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 id_item = 0;
+                id_locacao = 0;
+                id_cliente = 0;
                 jtPreco.setText("");
                 jtFilme.setText("");
                 jtTipoDeMidia.setText("");
+                jtCliente.setText("");
             }
         });
 
+    }
+    public AlugarView getAlugarView(){
+        return this;
     }
 
     public JTextField getJtCliente() {
