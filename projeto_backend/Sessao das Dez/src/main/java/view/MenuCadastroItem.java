@@ -1,6 +1,5 @@
 package view;
 
-import controller.FilmeController;
 import controller.ItemController;
 import dao.ExceptionDAO;
 
@@ -68,22 +67,6 @@ public class MenuCadastroItem extends JFrame {
         centerPanel.add(btnBuscarFilme, gbc);
 
 
-
-                    // Tipos de mídia física
-                    // DVD
-                    // Blu-Ray
-                    // CD-ROM
-                    // HDD (Hard Disk Drive)
-                    // SSD (Solid State Drive)
-                    // Pendrive
-                    // Cartões de Memória
-                    // Fitas VHS
-
-                    // Tipos de mídia digital
-                    // Arquivos Digitais (MP4, AVI, MKV, etc.)
-                    // Serviços de Streaming (Netflix, Disney+, Amazon Prime, etc.)
-                    // Servidores NAS (Network Attached Storage)
-                    // Nuvem (Google Drive, OneDrive, Dropbox)
         lTipo = new JLabel("Tipo de Midia: ");
         lTipo.setForeground(WHITE);
         gbc.gridx = 0;
@@ -138,12 +121,19 @@ public class MenuCadastroItem extends JFrame {
 
 
 
-        this.salvarFilme();
+        this.salvarItem();
         this.consultarFilme();
-        this.deletarFilme();
+        this.deletarItem();
         this.limparTelaCadastro();
         this.consultarItem();
         this.cancelar();
+
+        btnApagar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                limparTelaCadastro();
+            }
+        });
 
         this.add(centerPanel, BorderLayout.CENTER);
         this.add(painelNorte, BorderLayout.NORTH);
@@ -153,7 +143,7 @@ public class MenuCadastroItem extends JFrame {
         this.setVisible(true);
     }
 
-    private void deletarFilme(){
+    private void deletarItem(){
         btnApagar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -162,10 +152,12 @@ public class MenuCadastroItem extends JFrame {
                 try {
                     sucesso = controller.apagar(id_item);
                     if (sucesso) {
-                        JOptionPane.showMessageDialog(null, "item deletado com sucesso!", "Status", JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "item deletado com sucesso!",
+                                "Status", JOptionPane.PLAIN_MESSAGE);
                         limparTelaCadastro();
                     }else {
-                        JOptionPane.showMessageDialog(null, "Erro ao apagar item, isira um item já cadastrado", "Status", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Erro ao apagar item, insira um item já cadastrado",
+                                "Status", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (ExceptionDAO ex) {
                     ex.printStackTrace();
@@ -183,7 +175,7 @@ public class MenuCadastroItem extends JFrame {
         });
     }
 
-    private void salvarFilme(){
+    private void salvarItem(){
         bSalvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -221,14 +213,10 @@ public class MenuCadastroItem extends JFrame {
     }
 
     public void limparTelaCadastro(){
-        bLimpar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tfTituloFilme.setText("");
-                sPreco.setValue(-1);
-                cbTipo.setSelectedIndex(0);
-            }
-        });
+        tfTituloFilme.setText("");
+        sPreco.setValue(-1);
+        cbTipo.setSelectedIndex(0);
+
     }
 
 

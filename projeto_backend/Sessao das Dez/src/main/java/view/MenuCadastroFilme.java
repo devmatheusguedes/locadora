@@ -142,6 +142,7 @@ public class MenuCadastroFilme extends JFrame {
         this.salvarFilme();
         this.consultarFilme();
         this.deletarFilme();
+        this.cancelar();
 
         this.add(centerPanel, BorderLayout.CENTER);
         this.add(painelNorte, BorderLayout.NORTH);
@@ -168,6 +169,15 @@ public class MenuCadastroFilme extends JFrame {
                 } catch (ExceptionDAO ex) {
                     ex.printStackTrace();
                 }
+            }
+        });
+    }
+
+    private void cancelar(){
+        bCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fecharJanela();
             }
         });
     }
@@ -250,6 +260,10 @@ public class MenuCadastroFilme extends JFrame {
             }
 
         }
+    }
+
+    private void fecharJanela(){
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
 

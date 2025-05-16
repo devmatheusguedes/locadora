@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class MenuPrincial extends JFrame {
@@ -33,8 +34,13 @@ public class MenuPrincial extends JFrame {
         jLayeredPane.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()));
 
         BufferedImage image = null;
+        InputStream is = null;
         try {
-            image = ImageIO.read(new File("src/main/resources/iconImagem.jpg"));
+            is = getClass().getResourceAsStream("/iconImagem.jpg");
+            if (is != null) {
+                image = ImageIO.read(is);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -42,12 +48,18 @@ public class MenuPrincial extends JFrame {
 
         BufferedImage img = null;
         Image dImage = null;
+        is = null;
 
 
 
         try {
-            img = ImageIO.read(new File("src/main/resources/IA_img_background.png"));
-            dImage = img.getScaledInstance(this.getWidth() , this.getHeight(), Image.SCALE_SMOOTH);
+            is = getClass().getResourceAsStream("/IA_img_background.png");
+            if (is != null) {
+                img = ImageIO.read(is);
+            }
+            if (img != null) {
+                dImage = img.getScaledInstance(this.getWidth() , this.getHeight(), Image.SCALE_SMOOTH);
+            }
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -92,7 +104,6 @@ public class MenuPrincial extends JFrame {
         miSair.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("saindo..");
                 System.exit(0);
             }
         });
@@ -100,8 +111,6 @@ public class MenuPrincial extends JFrame {
         miItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                System.out.println("ação item");
                 MenuCadastroItem item = new MenuCadastroItem();
             }
         });
@@ -118,7 +127,6 @@ public class MenuPrincial extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                System.out.println("ação cliente");
                 MenuCadastroCliente cliente = new MenuCadastroCliente();
             }
         });
@@ -127,7 +135,6 @@ public class MenuPrincial extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MenuCadastroAtor ator = new MenuCadastroAtor();
-                System.out.println("ação ator");
             }
         });
 

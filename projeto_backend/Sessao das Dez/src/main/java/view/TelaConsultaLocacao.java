@@ -156,6 +156,7 @@ public TelaConsultaLocacao(){
 
     private void fecharJanela(AlugarView menuCadastro){
         this.setVisible(false);
+        menuCadastro.setMenuCadastro((JFrame) this);
         menuCadastro.setVisible(true);
     }
 

@@ -133,7 +133,7 @@ cpf.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1  , btnBordaCor));
         btnCancelar.addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
-            System.out.println("cancelando...");
+              fecharJanela();
           }
         });
 
@@ -224,6 +224,10 @@ public void apagarCliente() throws ExceptionDAO {
         if (status) JOptionPane.showMessageDialog(null, "Cliente apagado com sucesso","Status", JOptionPane.PLAIN_MESSAGE);
         else JOptionPane.showMessageDialog(null, "Erro ao deletar cliente", "Status", JOptionPane.ERROR_MESSAGE);
 
+}
+
+private void fecharJanela(){
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 }
 
 }

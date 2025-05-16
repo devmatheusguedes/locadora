@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TelaConsultaItem extends JFrame{
+public class TelaConsultaItem extends JFrame {
 
     private JLabel icone, jLabel2;
     private JTable jTable;
@@ -30,19 +30,19 @@ public class TelaConsultaItem extends JFrame{
     private JFrame menuCadastro;
 
 
-
-    public TelaConsultaItem(){
+    public TelaConsultaItem() {
         super("tela de consulta de Item");
         this.iniciar();
     }
-    public TelaConsultaItem(JFrame menuCadastro){
+
+    public TelaConsultaItem(JFrame menuCadastro) {
         super("tela de consulta de Item");
         this.iniciar();
         this.menuCadastro = menuCadastro;
     }
 
-    private void iniciar(){
-        this.setBounds((int) (tamanhoDaTela.getWidth() - x)/2, (int)(tamanhoDaTela.getHeight() - y)/2, x, y);
+    private void iniciar() {
+        this.setBounds((int) (tamanhoDaTela.getWidth() - x) / 2, (int) (tamanhoDaTela.getHeight() - y) / 2, x, y);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.setLayout(null);
 
@@ -61,7 +61,7 @@ public class TelaConsultaItem extends JFrame{
 
         jButtonPesquisar.setBounds(560, 70, 110, 30);
 
-        String[] nomeDaColuna = {"código Item","Código Filme", "Tipo", "Preço", "Titulo"};
+        String[] nomeDaColuna = {"código Item", "Código Filme", "Tipo", "Preço", "Titulo"};
         DefaultTableModel modelo = new DefaultTableModel(nomeDaColuna, 0);
         jTable = new JTable(modelo);
         JScrollPane painelTabela = new JScrollPane(jTable);
@@ -78,7 +78,7 @@ public class TelaConsultaItem extends JFrame{
                     ArrayList<MItem> items = itemController.listarItens(titulo);
 
                     items.forEach((MItem item) -> {
-                        model.addRow(new Object[] {
+                        model.addRow(new Object[]{
                                 item.getCod_item(),
                                 item.getFilme().getCodFilme(),
                                 item.getTipo(),
@@ -97,7 +97,6 @@ public class TelaConsultaItem extends JFrame{
         });
 
 
-
         this.add(icone);
         this.add(jLabel2);
         this.add(jTextField);
@@ -107,33 +106,31 @@ public class TelaConsultaItem extends JFrame{
         painelTabela.addMouseListener(new MouseAdapter() {
                                           @Override
                                           public void mouseClicked(MouseEvent e) {
-            //titulo, genero, sinopse, duracaoitem
-            // getCod_item(),
+                                              //titulo, genero, sinopse, duracaoitem
+                                              // getCod_item(),
 //                                item.getFilme().getCodFilme(),
 //                                item.getTipo(),
 //                                item.getPreco(),
 //                                item.getTitulo(){
-          if (e.getClickCount() == 2) {
-              int row = jTable.getSelectedRow();
-             if(row != -1) {
-                 Integer cod_item = (Integer) jTable.getModel().getValueAt(row, 0);
-                 Integer cod_filme = (Integer) jTable.getModel().getValueAt(row, 1);
-                 String tipo = (String) jTable.getModel().getValueAt(row, 2);
-                 double preco = (double) jTable.getModel().getValueAt(row, 3);
-                 String titulo = (String) jTable.getModel().getValueAt(row, 4);
-                 preencherMenuCadastro(cod_item, cod_filme, tipo, preco, titulo);
-             }else {
-                 String msgm = "nehuma linha selecionada";
-                 JOptionPane.showMessageDialog(null, msgm);
-             }
+                                              if (e.getClickCount() == 2) {
+                                                  int row = jTable.getSelectedRow();
+                                                  if (row != -1) {
+                                                      Integer cod_item = (Integer) jTable.getModel().getValueAt(row, 0);
+                                                      Integer cod_filme = (Integer) jTable.getModel().getValueAt(row, 1);
+                                                      String tipo = (String) jTable.getModel().getValueAt(row, 2);
+                                                      double preco = (double) jTable.getModel().getValueAt(row, 3);
+                                                      String titulo = (String) jTable.getModel().getValueAt(row, 4);
+                                                      preencherMenuCadastro(cod_item, cod_filme, tipo, preco, titulo);
+                                                  } else {
+                                                      String msgm = "nehuma linha selecionada";
+                                                      JOptionPane.showMessageDialog(null, msgm);
+                                                  }
 
 
-          }
+                                              }
                                           }
                                       }
         );
-
-
 
 
         this.setVisible(true);
@@ -142,7 +139,7 @@ public class TelaConsultaItem extends JFrame{
 
     private void preencherMenuCadastro(Integer cod_item, Integer cod_filme, String tipo, double preco, String titulo) {
         String tipo_tela = menuCadastro.getClass().getSimpleName();
-        if (tipo_tela.equals("MenuCadastroFilme")){
+        if (tipo_tela.equals("MenuCadastroItem")) {
             MenuCadastroItem menuCadastroItem = (MenuCadastroItem) this.menuCadastro;
             menuCadastroItem.preencher(cod_item, cod_filme, titulo, tipo, preco);
             menuCadastroItem.setVisible(true);
@@ -151,14 +148,9 @@ public class TelaConsultaItem extends JFrame{
             AlugarView alugarView = new AlugarView();
             alugarView.preencherCampoItem(cod_item, tipo, titulo, preco);
             alugarView.setVisible(true);
-        }else {
+        } else {
             System.out.println("nada");
         }
         this.dispose();
     }
-
-    public static void main(String[] args) {
-        TelaConsultaItem item = new TelaConsultaItem();
-    }
-
 }

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class AlugarView extends JFrame {
-    private JButton btnPesquisaCliente, btnBuscarFilmeItem, btnAlugar, btnLimpar, btnApagar;
+    private JButton btnPesquisaCliente, btnBuscarFilmeItem, btnAlugar, btnLimpar, btnApagar, btnConsultar;
     private JTextField jtCliente, jtFilme, jtTipoDeMidia, jtPreco;
     private JLabel jlCliente, jlFilme,
             jlMidia, jlPreco;
@@ -21,6 +21,7 @@ public class AlugarView extends JFrame {
     private Integer id_cliente = 0, id_item = 0, id_locacao = 0;
     private String status;
     private Date data_aluguel, data_devolucao;
+    private JFrame menuCadastro;
     public AlugarView(){
         this.iniciar();
     }
@@ -53,8 +54,9 @@ public class AlugarView extends JFrame {
         jtCliente = new JTextField();
         jtFilme = new JTextField();
         jtPreco = new JTextField();
-        jtCliente.setBounds(150, 20, 200, 30);
-        jtFilme.setBounds(150, 60, 200, 30);
+
+        jtFilme.setBounds(150, 20, 200, 30);
+        jtCliente.setBounds(150, 60, 200, 30);
         jtTipoDeMidia = new JTextField();
         jtTipoDeMidia.setBounds(150, 100, 100, 30);
         jtPreco.setBounds(150, 140, 100, 30);
@@ -62,8 +64,12 @@ public class AlugarView extends JFrame {
 
 
 
-        btnPesquisaCliente.setBounds(360, 20, 120, 30);
-        btnBuscarFilmeItem.setBounds(360, 60, 120, 30);
+        btnBuscarFilmeItem.setBounds(360, 20, 120, 30);
+        btnPesquisaCliente.setBounds(360, 60, 120, 30);
+
+        btnConsultar = new JButton("Consultar");
+        btnConsultar.setBounds(150, 300, 120, 30);
+
         btnAlugar.setBounds(300, 300, 120, 30);
 
         btnLimpar = new JButton("Limpar");
@@ -71,6 +77,7 @@ public class AlugarView extends JFrame {
 
         btnApagar = new JButton("Apagar");
         btnApagar.setBounds(600, 300, 120, 30);
+
 
 
 
@@ -86,6 +93,7 @@ public class AlugarView extends JFrame {
         this.add(jtPreco);
         this.add(btnPesquisaCliente);
         this.add(btnBuscarFilmeItem);
+        this.add(btnConsultar);
         this.add(btnAlugar);
         this.add(btnLimpar);
         this.add(btnApagar);
@@ -94,6 +102,13 @@ public class AlugarView extends JFrame {
         this.alugarItem();
         this.limparTela();
         this.apagar();
+        this.consultar();
+        btnLimpar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                limparTela();
+            }
+        });
 
         this.setVisible(true);
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -103,6 +118,16 @@ public class AlugarView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TelaConsultaCliente cliente = new TelaConsultaCliente((JFrame)getAlugarView());
+            }
+        });
+    }
+
+    private void consultar(){
+        btnConsultar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                menuCadastro = (TelaConsultaLocacao) menuCadastro;
+                menuCadastro.setVisible(true);
             }
         });
     }
@@ -153,7 +178,7 @@ public class AlugarView extends JFrame {
                         mensagem += "Alteração realizado com sucesso!";
                     }
                     if (!isTrue){
-                        mensagem += "Preencha todos os campos.";
+                        mensagem = "Preencha todos os campos.";
                     }
 
                     JOptionPane.showMessageDialog(null, mensagem);
@@ -176,6 +201,7 @@ public class AlugarView extends JFrame {
                     istrue = locacaoController.apagar(id_locacao);
                     if (istrue){
                         mensagem += "registro apagado com sucesso";
+                        limparTela();
                     }else mensagem += "selecione um resgitro.";
 
                     JOptionPane.showMessageDialog(null, mensagem);
@@ -186,9 +212,6 @@ public class AlugarView extends JFrame {
         });
     }
     private void limparTela(){
-        btnLimpar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
                 id_item = 0;
                 id_locacao = 0;
                 id_cliente = 0;
@@ -196,10 +219,13 @@ public class AlugarView extends JFrame {
                 jtFilme.setText("");
                 jtTipoDeMidia.setText("");
                 jtCliente.setText("");
-            }
-        });
 
     }
+
+    public void setMenuCadastro(JFrame menuCadastro) {
+        this.menuCadastro = menuCadastro;
+    }
+
     public AlugarView getAlugarView(){
         return this;
     }

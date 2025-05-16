@@ -114,7 +114,7 @@ public class MenuCadastroAtor extends JFrame {
         btnCnacelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("acionando botão cancelar...");
+                fecharJanela();
             }
 
 
@@ -123,7 +123,6 @@ public class MenuCadastroAtor extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 TelaConsultaAtor consultaAtor = new TelaConsultaAtor(getMenuCadastroAtor());
-                System.out.println("acionando botão consultar...");
                 fecharJanela();
 
             }
